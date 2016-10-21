@@ -68,7 +68,10 @@ def print_table(order,inventory):
 
 
 def import_inventory(filename,inventory):
-    givenFile=open(filename,'r')
+    if filename=="":
+        givenFile=open('import_inventory.csv','r')
+    else:
+        givenFile=open(filename,'r')
     data=[]
     newInv=[]
     firstLine=givenFile.readline()
@@ -85,14 +88,26 @@ def import_inventory(filename,inventory):
     #print(newInv)
     inventory=add_to_inventory(inventory,newInv)
 
+
+def export_inventory(filename,inventory):
+    if filename=="":
+        newFile=open("export_inventory.csv",'w')
+    else:
+        newFile=open(filename,'w')
+    newFile.write("item_name,count\n")
+    for item in inventory:
+        newFile.write(str(item)+","+str(inventory[item])+"\n")
+    print(2)
+
 #KELL MAIN
 
 display_inventory(inv)
 inv = add_to_inventory(inv, dragon_loot)
 display_inventory(inv)
 print_table("count,asc",inv)
-import_inventory("test.txt",inv)
+import_inventory("test",inv)
 display_inventory(inv)
+export_inventory("done",inv)
 """
 for key in sorted(inv.values()):
     print(key)
