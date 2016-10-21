@@ -1,5 +1,4 @@
-inv = {'rope': 1, 'torch': 6, 'gold coin': 42, 'dagger': 1, 'arrow': 12}
-dragon_loot = ['gold coin', 'dagger', 'gold coin', 'gold coin', 'ruby']
+
 
 def display_inventory(inventory):
     print('Inventory:')
@@ -46,12 +45,12 @@ def print_table(order,inventory):
     sum=0
 
     if order == "count,desc":
-        for key,value in sorted(inv.items()):
+        for key,value in sorted(inventory.items()):
             print(str(value).rjust(max_length), str(key).rjust(max_length)) 
             sum += value
         print("fff")
     elif order == "count,asc":
-        for key,value in sorted(inv.items()):
+        for key,value in sorted(inventory.items()):
             print(str(value).rjust(max_length), str(key).rjust(max_length)) 
             sum += value
         print("aaa")
@@ -97,17 +96,23 @@ def export_inventory(filename,inventory):
     newFile.write("item_name,count\n")
     for item in inventory:
         newFile.write(str(item)+","+str(inventory[item])+"\n")
-    print(2)
 
 #KELL MAIN
+def main():
+    inv = {'rope': 1, 'torch': 6, 'gold coin': 42, 'dagger': 1, 'arrow': 12}
+    dragon_loot = ['gold coin', 'dagger', 'gold coin', 'gold coin', 'ruby']
+    
+    display_inventory(inv)
+    inv = add_to_inventory(inv, dragon_loot)
+    display_inventory(inv)
+    print_table("count,asc",inv)
+    import_inventory("test",inv)
+    display_inventory(inv)
+    export_inventory("done",inv)
 
-display_inventory(inv)
-inv = add_to_inventory(inv, dragon_loot)
-display_inventory(inv)
-print_table("count,asc",inv)
-import_inventory("test",inv)
-display_inventory(inv)
-export_inventory("done",inv)
+if __name__ == '__main__':
+    main()
+
 """
 for key in sorted(inv.values()):
     print(key)
