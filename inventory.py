@@ -1,5 +1,6 @@
 import collections
 
+
 def display_inventory(inventory):
     print('Inventory:')
     sum=0
@@ -27,7 +28,8 @@ def add_to_inventory(inventory,added_items):
             
     return inventory
 
-#szét kéne még szedni h rövidebb legyen, NINCS SORREND RENDESEN, CSAK A SZIMPLA FORMÁZÁS,FURÁKRA NEM JÓ狼心狗肺
+
+#szét kéne még szedni h rövidebb legyen, FURÁKRA NEM JÓ狼心狗肺 DE TABRA ÉS SPACERE JÓ
 def print_table(inventory,order="normal"):
     #Getting the max lengthed string from our inventory
     max_length=0
@@ -72,18 +74,16 @@ def import_inventory(inventory,filename='import_inventory.csv'):
     givenFile=open(filename,'r')
     data=[]
     newInv=[]
-    firstLine=givenFile.readline()
-    #print(firstLine)
+    givenFile.readline()
     for line in givenFile:
         data.append(line)
-    #print(data)
+    
     for each in range(len(data)):
-        darab=data[each]
-        vmi=[]
-        vmi=darab.split(',')
-        for times in range(int(vmi[1])):
-            newInv.append(vmi[0])
-    #print(newInv)
+        piece=data[each]
+        splits=[]
+        splits=piece.split(',')
+        for times in range(int(splits[1])):
+            newInv.append(splits[0])
     inventory=add_to_inventory(inventory,newInv)
 
 
@@ -94,20 +94,6 @@ def export_inventory(inventory,filename="export_inventory.csv"):
         newFile.write(str(item)+","+str(inventory[item])+"\n")
 
 
-def proba(inventory):
-    od = collections.OrderedDict(sorted(inventory.items(), key=lambda t: t[1]))
-    print(od)
-    for k, v in od.items():
-        print(v,k)
-
-    vd = collections.OrderedDict(sorted(inventory.items(), key=lambda t: t[1], reverse=True))
-    print(vd)
-    for f, d in vd.items():
-        print(d,f)
-
-
-
-#KELL MAIN
 def main():
     inv = {'rope': 1, 'torch': 6, 'gold coin': 42, 'dagger': 1, 'arrow': 12}
     dragon_loot = ['gold coin', 'dagger', 'gold coin', 'gold coin', 'ruby']
@@ -119,18 +105,8 @@ def main():
     import_inventory(inv)
     display_inventory(inv)
     export_inventory(inv)
-    #proba(inv)
+    
 
 if __name__ == '__main__':
     main()
-
-"""
-for key in sorted(inv.values()):
-    print(key)
-vmi="fsf,dsfs,ds"
-db=[]
-db=vmi.split(',')
-print(vmi.split(','))
-print(db)
-"""
 
