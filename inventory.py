@@ -1,4 +1,4 @@
-
+import collections
 
 def display_inventory(inventory):
     print('Inventory:')
@@ -27,8 +27,8 @@ def add_to_inventory(inventory,added_items):
             
     return inventory
 
-#szét kéne még szedni h rövidebb legyen, NINCS SORREND RENDESEN, CSAK A SZIMPLA FORMÁZÁS
-def print_table(order,inventory):
+#szét kéne még szedni h rövidebb legyen, NINCS SORREND RENDESEN, CSAK A SZIMPLA FORMÁZÁS,FURÁKRA NEM JÓ狼心狗肺
+def print_table(inventory,order="normal"):
     #Getting the max lengthed string from our inventory
     max_length=0
     for each in inventory:
@@ -44,17 +44,19 @@ def print_table(order,inventory):
     print('_')
     sum=0
 
-    if order == "count,desc":
-        for key,value in sorted(inventory.items()):
-            print(str(value).rjust(max_length), str(key).rjust(max_length)) 
-            sum += value
-        print("fff")
-    elif order == "count,asc":
-        for key,value in sorted(inventory.items()):
-            print(str(value).rjust(max_length), str(key).rjust(max_length)) 
-            sum += value
-        print("aaa")
-    elif order == "":
+    if order == "count,asc":
+        od = collections.OrderedDict(sorted(inventory.items(), key=lambda t: t[1]))
+        #print(od)
+        for k, v in od.items():
+            print(str(v).rjust(max_length),str(k).rjust(max_length))
+            sum += v
+    elif order == "count,desc":
+        vd = collections.OrderedDict(sorted(inventory.items(), key=lambda t: t[1], reverse=True))
+        #print(vd)
+        for f, d in vd.items():
+            print(str(d).rjust(max_length),str(f).rjust(max_length))
+            sum += d
+    elif order == "normal":
         for each in inventory:
             print(str(inventory[each]).rjust(max_length) , str(each).rjust(max_length))
             sum += inventory[each]
@@ -66,11 +68,8 @@ def print_table(order,inventory):
     print("Total number of items: ", sum,"\n")
 
 
-def import_inventory(filename,inventory):
-    if filename=="":
-        givenFile=open('import_inventory.csv','r')
-    else:
-        givenFile=open(filename,'r')
+def import_inventory(inventory,filename='import_inventory.csv'):
+    givenFile=open(filename,'r')
     data=[]
     newInv=[]
     firstLine=givenFile.readline()
@@ -88,14 +87,25 @@ def import_inventory(filename,inventory):
     inventory=add_to_inventory(inventory,newInv)
 
 
-def export_inventory(filename,inventory):
-    if filename=="":
-        newFile=open("export_inventory.csv",'w')
-    else:
-        newFile=open(filename,'w')
+def export_inventory(inventory,filename="export_inventory.csv"):
+    newFile=open(filename,'w')
     newFile.write("item_name,count\n")
     for item in inventory:
         newFile.write(str(item)+","+str(inventory[item])+"\n")
+
+
+def proba(inventory):
+    od = collections.OrderedDict(sorted(inventory.items(), key=lambda t: t[1]))
+    print(od)
+    for k, v in od.items():
+        print(v,k)
+
+    vd = collections.OrderedDict(sorted(inventory.items(), key=lambda t: t[1], reverse=True))
+    print(vd)
+    for f, d in vd.items():
+        print(d,f)
+
+
 
 #KELL MAIN
 def main():
@@ -105,10 +115,11 @@ def main():
     display_inventory(inv)
     inv = add_to_inventory(inv, dragon_loot)
     display_inventory(inv)
-    print_table("count,asc",inv)
-    import_inventory("test",inv)
+    print_table(inv,"count,desc")
+    import_inventory(inv)
     display_inventory(inv)
-    export_inventory("done",inv)
+    export_inventory(inv)
+    #proba(inv)
 
 if __name__ == '__main__':
     main()
