@@ -29,7 +29,6 @@ def add_to_inventory(inventory,added_items):
     return inventory
 
 
-#szét kéne még szedni h rövidebb legyen, FURÁKRA NEM JÓ狼心狗肺 DE TABRA ÉS SPACERE JÓ
 def print_table(inventory,order="normal"):
     #Getting the max lengthed string from our inventory
     max_length=0
@@ -48,13 +47,11 @@ def print_table(inventory,order="normal"):
 
     if order == "count,asc":
         od = collections.OrderedDict(sorted(inventory.items(), key=lambda t: t[1]))
-        #print(od)
         for k, v in od.items():
             print(str(v).rjust(max_length),str(k).rjust(max_length))
             sum += v
     elif order == "count,desc":
         vd = collections.OrderedDict(sorted(inventory.items(), key=lambda t: t[1], reverse=True))
-        #print(vd)
         for f, d in vd.items():
             print(str(d).rjust(max_length),str(f).rjust(max_length))
             sum += d
